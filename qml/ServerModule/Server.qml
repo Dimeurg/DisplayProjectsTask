@@ -65,11 +65,7 @@ QtObject{
                     var result = JSON.parse(request.responseText)
                     projectsJson = result.projects
                 } else {
-
                     console.log("HTTP:", request.status, request.statusText)
-                    var result = JSON.parse(request.responseText)
-                    var errors = result.first_errors
-                    var resultRequest = errors
                 }
             }
         }

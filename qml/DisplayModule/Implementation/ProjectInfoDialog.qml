@@ -44,7 +44,7 @@ Dialog {
                     height: parent.height
 
                     Row{
-                        id: _aaa
+                        id: _ActiveLable
                         spacing: 5
                         width: parent.width
                         height: parent.height / 2
@@ -61,7 +61,7 @@ Dialog {
                         spacing: 5
                         width: parent.width
                         height: parent.height / 2
-                        anchors.top: _aaa.bottom
+                        anchors.top: _ActiveLable.bottom
 
                         BaseText{
                             id: _labelName

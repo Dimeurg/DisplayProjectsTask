@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qml/ServerModule/qmldir</file>
+        <file>qml/ServerModule/Server.qml</file>
+        <file>qml/DisplayModule/Base/BaseListDelegate.qml</file>
+        <file>qml/DisplayModule/Base/BaseText.qml</file>
+        <file>qml/DisplayModule/Base/BaseListView.qml</file>
+        <file>qml/DisplayModule/Base/qmldir</file>
+        <file>qml/DisplayModule/Base/RoundImage.qml</file>
+        <file>qml/DisplayModule/Implementation/ProjectsListDelegate.qml</file>
+        <file>qml/DisplayModule/Implementation/ProjectsListView.qml</file>
+        <file>qml/DisplayModule/Implementation/qmldir</file>
+        <file>qml/DisplayModule/qmldir</file>
+        <file>qml/StyleSettings/qmldir</file>
+        <file>qml/StyleSettings/Style.qml</file>
+    </qresource>
+</RCC>

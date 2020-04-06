@@ -1,0 +1,3 @@
+module Implementation
+ProjectsListDelegate 1.0 ProjectsListDelegate.qml
+ProjectsListView 1.0 ProjectsListView.qml

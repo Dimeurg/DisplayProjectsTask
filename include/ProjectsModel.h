@@ -21,7 +21,7 @@ public:
     Q_INVOKABLE void addData(const ProjectInfo& info);
 
 public slots:
-    void onReadProjectsInfo();
+    void onReadProjectsInfo(const QJsonArray& projectsInfo);
 
 signals:
     void tokenChanged();

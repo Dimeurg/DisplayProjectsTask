@@ -6,6 +6,7 @@
 struct Time{
     Time() = default;
     Time(int hours, int minutes, int seconds);
+    Time(int timeInSeconds);
     QString toString();
 
 private:

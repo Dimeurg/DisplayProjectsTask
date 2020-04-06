@@ -1,11 +1,12 @@
 #include "ProjectsModel.h"
 #include <QQmlEngine>
+#include <QJsonArray>
+#include <QJsonObject>
 
 ProjectsModel::ProjectsModel(QObject *parent)
     :QAbstractListModel(parent)
 {
-    ProjectInfo info("project1", 1, 1, {}, "", {1,30,00}, {10,45,33}, {25,28,44});
-    m_projects.push_back(info);
+
 }
 
 void ProjectsModel::registerMe(const std::string &moduleName)
@@ -99,9 +100,24 @@ QHash<int, QByteArray> ProjectsModel::roleNames() const
     return roles;
 }
 
-void ProjectsModel::onReadProjectsInfo()
+void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
 {
+    std::vector<ProjectInfo> projects;
+    for(auto infoJson : projectsInfo)
+    {
+        QString prName = infoJson["name"].toString();
+        bool isActive = infoJson["is_active"].toBool();
+        bool isWatcher = infoJson["is_owner_watcher"].toBool();
+        QString iconUrl = infoJson["logo_url"].toString();
 
+        int spentTimeWeek = infoJson["spent_time_week"].toInt();
+        int spentTimeMonth = infoJson["spent_time_month"].toInt();
+        int spentTimeTotal = infoJson["spent_time_all"].toInt();
+
+        projects.emplace_back(prName, isActive, isWatcher, std::vector<QPair<bool, QString>>(), iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal));
+    }
+
+    m_projects.swap(projects);
 }
 
 QString ProjectsModel::token() const

@@ -29,25 +29,23 @@ QtObject{
 
     function getProjectsInfo(token)
     {
-        //var request = new XMLHttpRequest()
-        //var resultArray = new Array();
-        //var index = 0
-        //request.open('GET', 'https://api.quwi.com/v2/projects-manage/index')
-        //request.onreadystatechange = function() {
-        //    if (request.readyState === XMLHttpRequest.DONE) {
-        //        if (request.status && request.status === 200) {
-        //            var result = JSON.parse(request.responseText)
-        //            result.projects.forEach((project)=>{
-        //                        resultArray[index++] = {}
-        //                    })                                                )
-        //
-        //        } else {
-        //            console.log("HTTP:", request2.status, request2.statusText)
-        //        }
-        //    }
-        //}
+        var projectsJson
+        var request = new XMLHttpRequest()
 
-       // request.setRequestHeader('Authorization', 'Bearer ' + token)
-      //  request.send()
+        request.open('GET', 'https://api.quwi.com/v2/projects-manage/index', false)
+        request.onreadystatechange = function() {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status && request.status === 200) {
+                    var result = JSON.parse(request.responseText)
+                    projectsJson = result.projects
+                } else {
+                    console.log("HTTP:", request2.status, request2.statusText)
+                }
+            }
+        }
+
+        request.setRequestHeader('Authorization', 'Bearer ' + token)
+        request.send()
+        return projectsJson
     }
 }

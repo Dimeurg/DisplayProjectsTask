@@ -63,6 +63,22 @@ Time::Time(int hours, int minutes, int seconds)
 
 }
 
+Time::Time(int timeInSeconds)
+{
+    const int SecondsInHour = 3600;
+    const int SecondsInMinute = 3600;
+
+    const int hours = timeInSeconds / SecondsInHour;
+    timeInSeconds -= hours * SecondsInHour;
+
+    const int minutes = timeInSeconds / SecondsInMinute;
+    const int seconds = timeInSeconds - minutes * SecondsInMinute;
+
+    m_hours = hours;
+    m_minutes = minutes;
+    m_seconds = seconds;
+}
+
 QString Time::toString()
 {
     return QStringLiteral("%1/%2/%3").arg(m_hours).arg(m_minutes).arg(m_seconds);

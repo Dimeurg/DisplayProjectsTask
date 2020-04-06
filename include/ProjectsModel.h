@@ -13,6 +13,13 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index = QModelIndex(), int role = Qt::DisplayRole) const override;
 
+    Q_INVOKABLE void setName(int index, QString name);
+
+    Q_INVOKABLE QVariant getName(int index) const;
+    Q_INVOKABLE QVariant getIsActive(int index) const;
+    Q_INVOKABLE QVariant getIsWatcher(int index) const;
+    Q_INVOKABLE QVariant getIconUrl(int index) const;
+
     QHash<int, QByteArray> roleNames() const override;
 
     QString token() const;
@@ -25,6 +32,7 @@ public slots:
 
 signals:
     void tokenChanged();
+    void projectNameChanged(int id, QString name);
 
 private:
     enum ProjectRoles{

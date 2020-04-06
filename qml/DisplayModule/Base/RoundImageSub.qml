@@ -15,7 +15,6 @@ Image{
 
             Rectangle{
                 anchors.fill: parent
-
                 radius: width / 2
             }
         }

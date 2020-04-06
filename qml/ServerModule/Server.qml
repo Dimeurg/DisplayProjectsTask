@@ -44,7 +44,7 @@ QtObject{
                     var result = JSON.parse(request.responseText)
                     projectsJson = result.projects
                 } else {
-                    console.log("HTTP:", request2.status, request2.statusText)
+                    console.log("HTTP:", request.status, request.statusText)
                 }
             }
         }
@@ -52,5 +52,31 @@ QtObject{
         request.setRequestHeader('Authorization', 'Bearer ' + token)
         request.send()
         return projectsJson
+    }
+
+    function changeName(token, id, name)
+    {
+        var request = new XMLHttpRequest()
+
+        request.open('POST', 'https://api.quwi.com/v2/projects-manage/update?id=' + id, false)
+        request.onreadystatechange = function() {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status && request.status === 200) {
+                    var result = JSON.parse(request.responseText)
+                    projectsJson = result.projects
+                } else {
+
+                    console.log("HTTP:", request.status, request.statusText)
+                    var result = JSON.parse(request.responseText)
+                    var errors = result.first_errors
+                    var resultRequest = errors
+                }
+            }
+        }
+
+        request.setRequestHeader('Content-Type', 'multipart/form-data')
+        request.setRequestHeader('Authorization', 'Bearer ' + token)
+        request.send('name=' + name)
+
     }
 }

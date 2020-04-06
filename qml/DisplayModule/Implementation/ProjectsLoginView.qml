@@ -31,7 +31,7 @@ Rectangle{
             text: "LOGIN"
         }
 
-        TextEdit{
+        TextInput{
             id: _email
             width: parent.width
             height: 30
@@ -46,8 +46,10 @@ Rectangle{
             }
         }
 
-        TextEdit{
+        TextInput{
             id: _password
+            echoMode: TextInput.Password
+
             width: parent.width
             height: 30
 

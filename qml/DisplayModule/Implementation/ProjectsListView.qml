@@ -15,10 +15,36 @@ BaseListView{
         onTokenChanged: {
             onReadProjectsInfo(Server.getProjectsInfo(token))
         }
+
+        onProjectNameChanged: {
+            Server.changeName(token, id, name)
+        }
     }
 
     delegate: ProjectsListDelegate{
         height: 100
         width: root.width
+
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                _infoDialog.data.index = index
+                _infoDialog.data.projectName = root.model.getName(index)
+                _infoDialog.data.isActive = root.model.getIsActive(index)
+                _infoDialog.data.isWatcher = root.model.getIsWatcher(index)
+                _infoDialog.data.projectIconSource = root.model.getIconUrl(index)
+
+                _infoDialog.open()
+            }
+        }
+    }
+
+    ProjectInfoDialog{
+        id: _infoDialog
+
+        changeNameButton.onClicked:  {
+            root.model.setName(root.index, projectName.text)
+        }
     }
 }

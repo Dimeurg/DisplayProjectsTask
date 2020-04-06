@@ -17,8 +17,6 @@ void ProjectsModel::registerMe(const std::string &moduleName)
 int ProjectsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    int a = m_projects.size();
-    auto b = m_projects;
     return m_projects.size();
 }
 
@@ -88,6 +86,45 @@ QVariant ProjectsModel::data(const QModelIndex &index, int role) const
     }
 }
 
+void ProjectsModel::setName(int index, QString name)
+{
+     if(index >= rowCount() || index < 0)
+         return;
+
+
+     m_projects[index].setProjectName(name);
+     dataChanged(createIndex(0,index), createIndex(0,index));
+     emit projectNameChanged(m_projects[index].id() , name);
+}
+
+QVariant ProjectsModel::getName(int index) const
+{
+    if(index >= rowCount() || index < 0)
+        return QVariant();
+    return QVariant::fromValue(m_projects[index].projectName());
+}
+
+QVariant ProjectsModel::getIsActive(int index) const
+{
+    if(index >= rowCount() || index < 0)
+        return QVariant();
+    return QVariant::fromValue(m_projects[index].isActive());
+}
+
+QVariant ProjectsModel::getIsWatcher(int index) const
+{
+    if(index >= rowCount() || index < 0)
+        return QVariant();
+    return QVariant::fromValue(m_projects[index].isWatcher());
+}
+
+QVariant ProjectsModel::getIconUrl(int index) const
+{
+    if(index >= rowCount() || index < 0)
+        return QVariant();
+    return QVariant::fromValue(m_projects[index].iconUrl());
+}
+
 QHash<int, QByteArray> ProjectsModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
@@ -108,15 +145,16 @@ void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
     for(auto infoJson : projectsInfo)
     {
         QString prName = infoJson["name"].toString();
-        bool isActive = infoJson["is_active"].toBool();
-        bool isWatcher = infoJson["is_owner_watcher"].toBool();
+        bool isActive = infoJson["is_active"].toInt();
+        bool isWatcher = infoJson["is_owner_watcher"].toInt();
         QString iconUrl = infoJson["logo_url"].toString();
 
         int spentTimeWeek = infoJson["spent_time_week"].toInt();
         int spentTimeMonth = infoJson["spent_time_month"].toInt();
         int spentTimeTotal = infoJson["spent_time_all"].toInt();
+        int id = infoJson["id"].toInt();;
 
-        projects.emplace_back(prName, isActive, isWatcher, std::vector<QPair<bool, QString>>(), iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal));
+        projects.emplace_back(prName, isActive, isWatcher, std::vector<QPair<bool, QString>>(), iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal), id);
     }
 
     if(projects.size())

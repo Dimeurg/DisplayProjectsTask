@@ -20,7 +20,7 @@ public:
     ProjectInfo();
     ProjectInfo(const QString& projectName, bool isActive, bool isWatcher,
                 const std::vector<QPair<bool, QString>>& watchUsers,
-                const QString& iconUrl,const Time& timeThisWeek, const Time& timeThisMonth, const Time& timeTotal);
+                const QString& iconUrl,const Time& timeThisWeek, const Time& timeThisMonth, const Time& timeTotal, int id);
 
     QString projectName() const;
     bool isActive() const;
@@ -32,6 +32,9 @@ public:
     Time timeThisMonth() const;
     Time timeTotal() const;
 
+    void setProjectName(const QString &projectName);
+    int id() const;
+
 private:
 
     QString m_projectName;
@@ -42,4 +45,5 @@ private:
     Time m_timeThisWeek;
     Time m_timeThisMonth;
     Time m_timeTotal;
+    int m_id;
 };

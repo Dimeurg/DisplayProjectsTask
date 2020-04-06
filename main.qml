@@ -34,6 +34,7 @@ ApplicationWindow {
                     {
                         _projectsPageView.setToken(result)
                         _swipeView.currentIndex = _swipeView.projectsPage
+
                         email.text = ""
                         password.text = ""
                     }

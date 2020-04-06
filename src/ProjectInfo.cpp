@@ -10,10 +10,10 @@ ProjectInfo::ProjectInfo()
 
 ProjectInfo::ProjectInfo(const QString &projectName, bool isActive, bool isWatcher,
                          const std::vector<QPair<bool, QString> > &watchUsers,
-                         const QString &iconUrl, const Time& timeThisWeek, const Time& timeThisMonth, const Time& timeTotal)
+                         const QString &iconUrl, const Time& timeThisWeek, const Time& timeThisMonth, const Time& timeTotal, int id)
     : m_projectName(projectName), m_isActive(isActive), m_isWatcher(isWatcher),
       m_watchUsers(watchUsers), m_iconUrl(iconUrl),
-      m_timeThisWeek(timeThisWeek), m_timeThisMonth(timeThisMonth), m_timeTotal(timeTotal)
+      m_timeThisWeek(timeThisWeek), m_timeThisMonth(timeThisMonth), m_timeTotal(timeTotal), m_id(id)
 {
 }
 
@@ -55,6 +55,16 @@ Time ProjectInfo::timeThisMonth() const
 Time ProjectInfo::timeTotal() const
 {
     return m_timeTotal;
+}
+
+void ProjectInfo::setProjectName(const QString &projectName)
+{
+    m_projectName = projectName;
+}
+
+int ProjectInfo::id() const
+{
+    return m_id;
 }
 
 Time::Time(int hours, int minutes, int seconds)

@@ -16,5 +16,6 @@
         <file>qml/StyleSettings/Style.qml</file>
         <file>qml/DisplayModule/Base/RoundImageSub.qml</file>
         <file>qml/DisplayModule/Implementation/ProjectsLoginView.qml</file>
+        <file>qml/DisplayModule/Implementation/ProjectInfoDialog.qml</file>
     </qresource>
 </RCC>

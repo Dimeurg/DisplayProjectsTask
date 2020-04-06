@@ -17,6 +17,8 @@ void ProjectsModel::registerMe(const std::string &moduleName)
 int ProjectsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
+    int a = m_projects.size();
+    auto b = m_projects;
     return m_projects.size();
 }
 
@@ -117,7 +119,14 @@ void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
         projects.emplace_back(prName, isActive, isWatcher, std::vector<QPair<bool, QString>>(), iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal));
     }
 
-    m_projects.swap(projects);
+    if(projects.size())
+    {
+        //update data
+        beginResetModel();
+        m_projects.swap(projects);
+        endResetModel();
+    }
+
 }
 
 QString ProjectsModel::token() const

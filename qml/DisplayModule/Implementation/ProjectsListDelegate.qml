@@ -9,17 +9,26 @@ BaseListDelegate{
             width: root.width / 2
             height: root.height
 
-            RoundImage{
+            Row{
                 id: _image
-                width: parent.height
-                height: width
-                image.source: iconUrl
+                width: parent.width/2
+                height: parent.height
+
+                anchors.left: _row1.left
+                RoundImage{
+                    width: parent.height - Style.mediumOffset
+                    height: width
+                    image.source: iconUrl
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: Style.mediumOffset
+                }
             }
 
             Row{
                 id: _projectName
                 height: parent.height
-                width: parent.width - _image.width
+                anchors.left: _image.right
                 BaseText{
                     anchors.centerIn: parent
                     text: projectName

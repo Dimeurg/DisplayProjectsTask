@@ -5,16 +5,14 @@ Rectangle{
     id:root
 
     border.width: 1
-    border.color: Style.basicColor
+    border.color: "red"
 
     radius: width / 2
 
     property alias image: _image
-    Image{
+    RoundImageSub{
         id: _image
         anchors.fill: parent
-
-        sourceSize.width: width
-        sourceSize.height: height
+        anchors.margins: Style.basicMargin
     }
 }

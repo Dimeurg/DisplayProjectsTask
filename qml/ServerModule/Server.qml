@@ -5,18 +5,22 @@ QtObject{
 
     function loginToServer(email, password)
     {
-        var token
+        var resultRequest
         var request = new XMLHttpRequest()
+        var errArray = new Array()
         request.open('POST', 'https://api.quwi.com/v2/auth/login', false)
         request.onreadystatechange = function() {
             if (request.readyState === XMLHttpRequest.DONE) {
                 if (request.status === 200) {
                     var result = JSON.parse(request.responseText)
-                    token = result.token
+                    resultRequest = result.token
                 }
 
                 else {
                     console.log("HTTP:", request.status, request.statusText)
+                    var result = JSON.parse(request.responseText)
+                    var errors = result.first_errors
+                    resultRequest = errors
                 }
             }
         }
@@ -24,7 +28,8 @@ QtObject{
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
         request.setRequestHeader('Client-Device', 'windows')
         request.send('email='+ email + '&password=' + password)
-        return token
+
+        return resultRequest
     }
 
     function getProjectsInfo(token)

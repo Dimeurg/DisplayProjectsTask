@@ -6,8 +6,12 @@ import ServerModule 1.0
 BaseListView{
     id: root
 
+    function setToken(token)
+    {
+        root.model.token = token
+    }
+
     model: ProjectsModel{
-        token: Server.loginToServer("kulish-2000@ukr.net", "DNDQuwi2020")
         onTokenChanged: {
             onReadProjectsInfo(Server.getProjectsInfo(token))
         }

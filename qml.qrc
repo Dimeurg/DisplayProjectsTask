@@ -14,5 +14,7 @@
         <file>qml/DisplayModule/qmldir</file>
         <file>qml/StyleSettings/qmldir</file>
         <file>qml/StyleSettings/Style.qml</file>
+        <file>qml/DisplayModule/Base/RoundImageSub.qml</file>
+        <file>qml/DisplayModule/Implementation/ProjectsLoginView.qml</file>
     </qresource>
 </RCC>

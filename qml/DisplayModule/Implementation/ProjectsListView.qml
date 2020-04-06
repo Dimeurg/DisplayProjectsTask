@@ -44,7 +44,7 @@ BaseListView{
         id: _infoDialog
 
         changeNameButton.onClicked:  {
-            root.model.setName(root.index, projectName.text)
+            root.model.setName(data.index, projectName.text)
         }
     }
 }

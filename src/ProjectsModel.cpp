@@ -93,7 +93,7 @@ void ProjectsModel::setName(int index, QString name)
 
 
      m_projects[index].setProjectName(name);
-     dataChanged(createIndex(0,index), createIndex(0,index));
+     dataChanged(createIndex(index,0), createIndex(index, 0));
      emit projectNameChanged(m_projects[index].id() , name);
 }
 

@@ -113,7 +113,7 @@ Dialog {
                 width: _activeLabel.width
                 height:_activeLabel.height
                 anchors.left: parent.left
-                anchors.top: _nameLabel.bottom
+                anchors.top: parent.top
                 text: "Users"
             }
         }

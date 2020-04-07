@@ -23,57 +23,80 @@ Rectangle{
         _errLabel.text = message
     }
 
-    Column{
-        width: root /2
-        anchors.centerIn: parent
 
-        BaseText{
-            text: "LOGIN"
-        }
+    BaseText{
+        id: _loginLable
+        anchors.top: parent.top
+        anchors.topMargin: parent.height / 4
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width / 8
+        height: parent.height / 14
+        text: "LOGIN"
+    }
 
-        TextInput{
-            id: _email
-            width: parent.width
-            height: 30
+    TextField {
+        id: _email
 
-            font.pointSize: 13
-            color: Style.textColor
+        anchors.top: _loginLable.bottom
+        anchors.topMargin: Style.mediumOffset
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width / 3
+        height: _loginLable.height
 
-            BaseText {
-                text: "Email"
-                color: "#aaa"
-                visible: !parent.text
-            }
-        }
+        placeholderText: "Email"
+        font.pointSize: 13
+        color: Style.backgroundColor
 
-        TextInput{
-            id: _password
-            echoMode: TextInput.Password
 
-            width: parent.width
-            height: 30
-
-            color: Style.textColor
-            font.pointSize: 13
-
-            BaseText {
-                text: "Password"
-                color: "#aaa"
-                visible: !parent.text
-            }
-        }
-
-        Button{
-            id: _logButton
-            text: "LOGIN"
-        }
-
-        Label{
-            id: _errLabel
-            text: ""
-            color: "red"
+        background: Rectangle {
+            implicitWidth: parent.width
+            implicitHeight: 30
+            color: tyle.basicColor
+            border.color: Style.basicColor
         }
     }
 
+    TextField {
+        id: _password
 
+        echoMode: TextField.Password
+
+        anchors.top: _email.bottom
+        anchors.topMargin: Style.mediumOffset
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width / 3
+        height: _loginLable.height
+
+        placeholderText: "Password"
+
+        font.pointSize: 13
+        color: Style.backgroundColor
+
+        background: Rectangle {
+            implicitWidth: parent.width
+            implicitHeight: 30
+            color: Style.basicColor
+            border.color: Style.basicColor
+        }
+    }
+
+    Button{
+        id: _logButton
+
+        anchors.top: _password.bottom
+        anchors.topMargin: Style.mediumOffset
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        text: "LOGIN"
+    }
+
+    Label{
+        id: _errLabel
+
+        anchors.top: _logButton.bottom
+        anchors.topMargin: Style.mediumOffset
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        color: "red"
+    }
 }

@@ -2,9 +2,15 @@
 #include <QQmlEngine>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QPointer>
 
 ProjectsModel::ProjectsModel(QObject *parent)
     :QAbstractListModel(parent)
+{
+
+}
+
+ProjectsModel::~ProjectsModel()
 {
 
 }
@@ -27,7 +33,7 @@ QVariant ProjectsModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    ProjectInfo info = m_projects[index.row()];
+    const ProjectInfo& info = *(m_projects[index.row()].get());
 
     switch(role)
     {
@@ -86,43 +92,17 @@ QVariant ProjectsModel::data(const QModelIndex &index, int role) const
     }
 }
 
-void ProjectsModel::setName(int index, QString name)
+void ProjectsModel::onProjectNameChanged()
 {
-     if(index >= rowCount() || index < 0)
-         return;
-
-
-     m_projects[index].setProjectName(name);
-     dataChanged(createIndex(index,0), createIndex(index, 0));
-     emit projectNameChanged(m_projects[index].id() , name);
+     dataChanged(createIndex(0, 0), createIndex(m_projects.size(), 0));
 }
 
-QVariant ProjectsModel::getName(int index) const
+QVariant ProjectsModel::getProjectInfo(int index) const
 {
     if(index >= rowCount() || index < 0)
         return QVariant();
-    return QVariant::fromValue(m_projects[index].projectName());
-}
 
-QVariant ProjectsModel::getIsActive(int index) const
-{
-    if(index >= rowCount() || index < 0)
-        return QVariant();
-    return QVariant::fromValue(m_projects[index].isActive());
-}
-
-QVariant ProjectsModel::getIsWatcher(int index) const
-{
-    if(index >= rowCount() || index < 0)
-        return QVariant();
-    return QVariant::fromValue(m_projects[index].isWatcher());
-}
-
-QVariant ProjectsModel::getIconUrl(int index) const
-{
-    if(index >= rowCount() || index < 0)
-        return QVariant();
-    return QVariant::fromValue(m_projects[index].iconUrl());
+    return QVariant::fromValue(m_projects[index].get());
 }
 
 QHash<int, QByteArray> ProjectsModel::roleNames() const
@@ -141,20 +121,20 @@ QHash<int, QByteArray> ProjectsModel::roleNames() const
 
 void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
 {
-    std::vector<ProjectInfo> projects;
+    std::vector<std::shared_ptr<ProjectInfo>> projects;
     for(auto infoJson : projectsInfo)
     {
         QString prName = infoJson["name"].toString();
         bool isActive = infoJson["is_active"].toInt();
         bool isWatcher = infoJson["is_owner_watcher"].toInt();
-        QString iconUrl = infoJson["logo_url"].toString();
+        QUrl iconUrl = infoJson["logo_url"].toString();
 
         int spentTimeWeek = infoJson["spent_time_week"].toInt();
         int spentTimeMonth = infoJson["spent_time_month"].toInt();
         int spentTimeTotal = infoJson["spent_time_all"].toInt();
         int id = infoJson["id"].toInt();;
 
-        projects.emplace_back(prName, isActive, isWatcher, std::vector<QPair<bool, QString>>(), iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal), id);
+        projects.emplace_back(new ProjectInfo(prName, isActive, isWatcher, std::vector<QPair<bool, QString>>(), iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal), id));
     }
 
     if(projects.size())
@@ -163,8 +143,12 @@ void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
         beginResetModel();
         m_projects.swap(projects);
         endResetModel();
-    }
 
+        for(auto& projectInfo: m_projects)
+        {
+            connect(projectInfo.get(), &ProjectInfo::projectNameChanged, this, &ProjectsModel::onProjectNameChanged);
+        }
+    }
 }
 
 QString ProjectsModel::token() const
@@ -181,7 +165,3 @@ void ProjectsModel::setToken(const QString &token)
     }
 }
 
-void ProjectsModel::addData(const ProjectInfo &info)
-{
-    m_projects.push_back(info);
-}

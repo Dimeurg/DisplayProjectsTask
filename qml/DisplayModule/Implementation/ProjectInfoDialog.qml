@@ -5,6 +5,7 @@ import DisplayModule.Base 1.0
 import StyleSettings 1.0
 
 import ServerModule 1.0
+import ProjectInfo 1.0
 
 Dialog {
     id:root
@@ -14,18 +15,9 @@ Dialog {
 
     standardButtons: StandardButton.Cancel | StandardButton.Ok
 
-    property alias data: _data
-    property alias changeNameButton: _changeNameButton
-    property alias projectName: _projectName
-    QtObject{
-        id: _data
+    property string token: ""
 
-        property int index: 0
-        property bool isActive: false
-        property bool isWatcher: false
-        property string projectName: ""
-        property string projectIconSource: ""
-    }
+    property var projectInfo: ({})
 
     contentItem: Rectangle {
         anchors.fill: parent
@@ -54,7 +46,7 @@ Dialog {
                             text: "Active"}
                         BaseText{
                             anchors.verticalCenter: parent.verticalCenter
-                            text: _data.isActive? "Active": "Unactive"}
+                            text: projectInfo.isActive? "Active": "Unactive"}
                     }
 
                     Row{
@@ -78,7 +70,7 @@ Dialog {
                             color: "white"
                             TextInput{
                                 id: _projectName
-                                text: _data.projectName
+                                text: projectInfo.projectName
                                 color: "#aaa"
                                 font.pointSize: 13
 
@@ -97,6 +89,11 @@ Dialog {
                     anchors.bottomMargin: Style.mediumOffset
 
                     text: "OK"
+
+                    onClicked:  {
+                        projectInfo.projectName = _projectName.text
+                        Server.changeName(root.token, projectInfo.id, projectInfo.projectName)
+                    }
                 }
 
                 RoundImage{
@@ -106,7 +103,7 @@ Dialog {
                     anchors.right: parent.right
                     anchors.rightMargin: Style.mediumOffset
                     anchors.verticalCenter: parent.verticalCenter
-                    image.source: _data.projectIconSource
+                    image.source: projectInfo.iconUrl
                 }
             }
 
@@ -131,8 +128,8 @@ Dialog {
 
                 BaseText
                 {
-                    verticalAlignment: Text.verticalCenter
-                    text: _data.isWatcher ? "Watcher" : "Not Watcher"
+                    //verticalAlignment: Text.verticalCenter
+                    text: projectInfo.isWatcher ? "Watcher" : "Not Watcher"
                 }
             }
         }

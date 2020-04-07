@@ -63,7 +63,6 @@ QtObject{
             if (request.readyState === XMLHttpRequest.DONE) {
                 if (request.status && request.status === 200) {
                     var result = JSON.parse(request.responseText)
-                    projectsJson = result.projects
                 } else {
                     console.log("HTTP:", request.status, request.statusText)
                 }

@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     ProjectsModel::registerMe("ProjectsModel");
+    ProjectInfo::registerMe("ProjectInfo");
 
     engine.addImportPath(":/qml");
     const QUrl url(QStringLiteral("qrc:/main.qml"));

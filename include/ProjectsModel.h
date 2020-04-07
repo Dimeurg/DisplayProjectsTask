@@ -1,5 +1,6 @@
 #include "ProjectInfo.h"
 #include <QAbstractListModel>
+#include <memory>
 
 class ProjectsModel : public QAbstractListModel{
     Q_OBJECT
@@ -7,32 +8,26 @@ class ProjectsModel : public QAbstractListModel{
     Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
 public:
     ProjectsModel(QObject* parent = nullptr);
+    ~ProjectsModel();
 
     static void registerMe(const std::string& moduleName);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index = QModelIndex(), int role = Qt::DisplayRole) const override;
 
-    Q_INVOKABLE void setName(int index, QString name);
-
-    Q_INVOKABLE QVariant getName(int index) const;
-    Q_INVOKABLE QVariant getIsActive(int index) const;
-    Q_INVOKABLE QVariant getIsWatcher(int index) const;
-    Q_INVOKABLE QVariant getIconUrl(int index) const;
+    Q_INVOKABLE QVariant getProjectInfo(int index) const;
 
     QHash<int, QByteArray> roleNames() const override;
 
     QString token() const;
     void setToken(const QString &token);
 
-    Q_INVOKABLE void addData(const ProjectInfo& info);
-
 public slots:
     void onReadProjectsInfo(const QJsonArray& projectsInfo);
+    void onProjectNameChanged();
 
 signals:
     void tokenChanged();
-    void projectNameChanged(int id, QString name);
 
 private:
     enum ProjectRoles{
@@ -47,6 +42,6 @@ private:
         TimeTotalRole
     };
 
-    std::vector<ProjectInfo> m_projects;
+    std::vector<std::shared_ptr<ProjectInfo>> m_projects;
     QString m_token;
 };

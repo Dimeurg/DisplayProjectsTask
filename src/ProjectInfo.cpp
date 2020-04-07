@@ -2,7 +2,8 @@
 #include <QStringLiteral>
 #include <QQmlEngine>
 
-ProjectInfo::ProjectInfo()
+ProjectInfo::ProjectInfo(QObject * parent)
+    :QObject(parent)
 {
 
 }
@@ -10,11 +11,18 @@ ProjectInfo::ProjectInfo()
 
 ProjectInfo::ProjectInfo(const QString &projectName, bool isActive, bool isWatcher,
                          const std::vector<QPair<bool, QString> > &watchUsers,
-                         const QString &iconUrl, const Time& timeThisWeek, const Time& timeThisMonth, const Time& timeTotal, int id)
-    : m_projectName(projectName), m_isActive(isActive), m_isWatcher(isWatcher),
+                         const QUrl &iconUrl, const Time& timeThisWeek, const Time& timeThisMonth,
+                         const Time& timeTotal, int id, QObject * parent)
+    : QObject(parent),
+      m_projectName(projectName), m_isActive(isActive), m_isWatcher(isWatcher),
       m_watchUsers(watchUsers), m_iconUrl(iconUrl),
       m_timeThisWeek(timeThisWeek), m_timeThisMonth(timeThisMonth), m_timeTotal(timeTotal), m_id(id)
 {
+}
+
+void ProjectInfo::registerMe(const std::string &moduleName)
+{
+    qmlRegisterType<ProjectInfo>(moduleName.c_str(), 1, 0, "ProjectInfo");
 }
 
 QString ProjectInfo::projectName() const
@@ -37,7 +45,7 @@ std::vector<QPair<bool, QString> > ProjectInfo::watchUsers() const
     return m_watchUsers;
 }
 
-QString ProjectInfo::iconUrl() const
+QUrl ProjectInfo::iconUrl() const
 {
     return m_iconUrl;
 }
@@ -59,7 +67,11 @@ Time ProjectInfo::timeTotal() const
 
 void ProjectInfo::setProjectName(const QString &projectName)
 {
-    m_projectName = projectName;
+    if(projectName != m_projectName)
+    {
+        m_projectName = projectName;
+        emit projectNameChanged();
+    }
 }
 
 int ProjectInfo::id() const

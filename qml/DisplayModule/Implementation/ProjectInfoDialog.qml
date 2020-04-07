@@ -5,7 +5,6 @@ import DisplayModule.Base 1.0
 import StyleSettings 1.0
 
 import ServerModule 1.0
-import ProjectInfo 1.0
 
 Dialog {
     id:root
@@ -14,8 +13,6 @@ Dialog {
     implicitHeight: 600
 
     standardButtons: StandardButton.Cancel | StandardButton.Ok
-
-    property string token: ""
 
     property var projectInfo: ({})
 
@@ -83,7 +80,7 @@ Dialog {
 
             onClicked:  {
                 projectInfo.projectName = _projectName.text
-                Server.changeName(root.token, projectInfo.id, projectInfo.projectName)
+                Server.changeName(globalProjectsModel.token, projectInfo.id, projectInfo.projectName)
             }
         }
 

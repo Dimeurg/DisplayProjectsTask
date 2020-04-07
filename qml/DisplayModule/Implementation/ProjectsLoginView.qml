@@ -2,6 +2,7 @@ import QtQuick 2.0
 import StyleSettings 1.0
 import DisplayModule.Base 1.0
 import QtQuick.Controls 2.12
+import ServerModule 1.0
 
 Rectangle{
     id:root
@@ -11,18 +12,7 @@ Rectangle{
     property alias email: _email
     property alias password: _password
 
-    function onError(error)
-    {
-        var message = ""
-        for (var key in error) {
-            if (error.hasOwnProperty(key)) {
-                message += ("Error: " + error[key] + "<br>")
-            }
-        }
-
-        _errLabel.text = message
-    }
-
+    signal logged()
 
     BaseText{
         id: _loginLable
@@ -51,7 +41,7 @@ Rectangle{
         background: Rectangle {
             implicitWidth: parent.width
             implicitHeight: 30
-            color: tyle.basicColor
+            color: Style.basicColor
             border.color: Style.basicColor
         }
     }
@@ -88,6 +78,34 @@ Rectangle{
         anchors.horizontalCenter: parent.horizontalCenter
 
         text: "LOGIN"
+
+        onClicked: {
+            Server.loginToServer()
+            var result = Server.loginToServer(_email.text, _password.text)
+            if(typeof result === 'string')
+            {
+                globalProjectsModel.token = result
+                logged()
+
+                email.text = ""
+                password.text = ""
+
+                globalProjectsModel.onReadProjectsInfo(Server.getProjectsInfo(globalProjectsModel.token))
+            }
+
+            else
+            {
+                var message = ""
+                for (var key in result) {
+                    if (result.hasOwnProperty(key)) {
+                        message += ("Error: " + result[key] + "<br>")
+                    }
+                }
+
+                _errLabel.text = message
+            }
+        }
+
     }
 
     Label{

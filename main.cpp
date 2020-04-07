@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include "ProjectsModel.h"
 
 int main(int argc, char *argv[])
@@ -9,7 +10,6 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    ProjectsModel::registerMe("ProjectsModel");
     ProjectInfo::registerMe("ProjectInfo");
 
     engine.addImportPath(":/qml");
@@ -20,6 +20,9 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
+    ProjectsModel projectsModel;
+    engine.rootContext()->setContextProperty("globalProjectsModel", &projectsModel);
 
     return app.exec();
 }

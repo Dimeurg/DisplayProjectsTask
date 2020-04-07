@@ -30,9 +30,8 @@ ApplicationWindow {
 
             onClicked: {
                 _swipeView.currentIndex = _swipeView.loginPage
-                _projectsPage.model.token = ""
-
-                _logoutButton.visible = false
+                globalProjectsModeltoken = ""
+                visible: false
             }
         }
     }
@@ -53,25 +52,10 @@ ApplicationWindow {
             width: _swipeView.width
             height: _swipeView.height
 
-            logButton.onClicked: {
-                var result = Server.loginToServer(email.text, password.text)
-                if(typeof result === 'string')
-                {
-                    _logoutButton.visible = true
-
-                    _projectsPage.setToken(result)
-                    _swipeView.currentIndex = _swipeView.projectsPage
-
-                    email.text = ""
-                    password.text = ""
-                }
-
-                else
-                {
-                    _loginPage.onError(result)
-                }
+            onLogged: {
+                _logoutButton.visible = true
+                _swipeView.currentIndex = _swipeView.projectsPage
             }
-
         }
 
         ProjectsListView{

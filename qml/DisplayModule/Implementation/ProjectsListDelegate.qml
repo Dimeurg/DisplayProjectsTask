@@ -7,94 +7,97 @@ BaseListDelegate{
 
     property bool thisIsActive: isActive
 
-    Row{
-        id: _row1
-        width: root.width / 2
-        height: root.height
+    RoundImage{
+        id: _icon
+        width: Math.min(parent.width / 8, parent.height - Style.basicMargin)
+        height: width
+        image.source: iconUrl
 
-        Row{
-            id: _image
-            width: parent.width/2
-            height: parent.height
-
-            anchors.left: _row1.left
-            RoundImage{
-                width: parent.height - Style.mediumOffset
-                height: width
-                image.source: iconUrl
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: Style.mediumOffset
-            }
-        }
-
-        Row{
-            id: _projectName
-            height: parent.height
-            anchors.left: _image.right
-            BaseText{
-                anchors.centerIn: parent
-                text: projectName
-            }
-        }
+        anchors.left: parent.left
+        anchors.leftMargin: Style.mediumOffset
+        anchors.verticalCenter: parent.verticalCenter
     }
 
-    Row{
-        id: _row2
-        height: root.height
-        anchors.left: _row1.right
-        anchors.right: root.right
+    BaseText{
+        id: _projectName
+        anchors.left: _icon.right
+        anchors.verticalCenter: parent.verticalCenter
+        width: parent.width / 3
+        height: parent.height / 3
 
-        Row{
-            id: _textActive
-            width: parent.width /3
-            height: parent.height
+        horizontalAlignment: TextInput.AlignHCenter
+        text: projectName
+    }
 
-            BaseText{
-                anchors.centerIn: parent
-                text: isActive ? "Active" : "Inactive"
-                color: Style.basicColor
-            }
-        }
 
-        Column{
-            id: _columnTimeLable
-            width: parent.width /3
-            height: parent.height
+    BaseText{
+        id: _isActive
+        anchors.left: _projectName.right
+        anchors.verticalCenter: parent.verticalCenter
+        width: parent.width / 8
+        height: parent.height / 3
 
-            BaseText{
-                text: "time this week"
-            }
+        horizontalAlignment: TextInput.AlignHCenter
+        text: isActive ? "Active" : "Inactive"
+        color: isActive ? "green" : "red"
+    }
 
-            BaseText{
-                text: "this month"
-            }
+    BaseText{
+        id: _timeThisWeekLabel
 
-            BaseText{
-                text: "total"
-            }
-        }
+        anchors.left: _isActive.right
+        anchors.leftMargin: Style.mediumOffsetf
+        anchors.top: parent.top
+        width: parent.width/4
+        height: parent.height/3
 
-        Column{
-            id: _columnTime
-            width: parent.width /3
-            height: parent.height
+        text: "time this week"
+    }
 
-            BaseText{
-                anchors.right: parent.right
-                text: timeThisWeek
-            }
+    BaseText{
+        id: _timeThisMonthLabel
 
-            BaseText{
-                anchors.right: parent.right
-                text: timeThisMonth
-            }
+        anchors.left: _timeThisWeekLabel.left
+        anchors.top: _timeThisWeekLabel.bottom
+        width: parent.width/4
+        height: parent.height/3
 
-            BaseText{
-                anchors.right: parent.right
-                text: timeTotal
-            }
-        }
+        text: "this month"
+    }
+
+    BaseText{
+        id: _timeTotalLabel
+
+        anchors.left: _timeThisWeekLabel.left
+        anchors.top: _timeThisMonthLabel.bottom
+        width: parent.width/4
+        height: parent.height/3
+
+        text: "total"
+    }
+
+    BaseText{
+        anchors.left: _timeThisWeekLabel.right
+        anchors.top: _timeThisWeekLabel.top
+
+        anchors.right: parent.right
+        text: timeThisWeek
+    }
+
+    BaseText{
+        anchors.left: _timeThisMonthLabel.right
+        anchors.top: _timeThisMonthLabel.top
+
+        anchors.right: parent.right
+        text: timeThisMonth
+    }
+
+    BaseText{
+        anchors.left: _timeTotalLabel.right
+        anchors.top: _timeTotalLabel.top
+
+        anchors.right: parent.right
+        text: timeTotal
     }
 
 }

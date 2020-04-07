@@ -1,7 +1,6 @@
 #include "ProjectsModel.h"
+#include "Parser.h"
 #include <QQmlEngine>
-#include <QJsonArray>
-#include <QJsonObject>
 #include <QPointer>
 
 ProjectsModel::ProjectsModel(QObject *parent)
@@ -55,9 +54,9 @@ QVariant ProjectsModel::data(const QModelIndex &index, int role) const
             break;
         }
 
-        case ProjectRoles::WatchUsersRole:
+        case ProjectRoles::UsersRole:
         {
-            return QVariant::fromValue(info.watchUsers());
+            return QVariant::fromValue(info.users());
             break;
         }
 
@@ -111,7 +110,7 @@ QHash<int, QByteArray> ProjectsModel::roleNames() const
     roles[ProjectRoles::ProjectNameRole] = "projectName";
     roles[ProjectRoles::IsActiveRole] = "isActive";
     roles[ProjectRoles::IsWatcherRole] = "isWatcher";
-    roles[ProjectRoles::WatchUsersRole] = "watchUsers";
+    roles[ProjectRoles::UsersRole] = "users";
     roles[ProjectRoles::IconUrlRole] = "iconUrl";
     roles[ProjectRoles::TimeThisWeekRole] = "timeThisWeek";
     roles[ProjectRoles::TimeThisMonthRole] = "timeThisMonth";
@@ -121,33 +120,14 @@ QHash<int, QByteArray> ProjectsModel::roleNames() const
 
 void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
 {
-    std::vector<std::shared_ptr<ProjectInfo>> projects;
-    for(auto infoJson : projectsInfo)
+    //update data
+    beginResetModel();
+    Parser::projectsInfoParse(projectsInfo, m_projects);
+    endResetModel();
+
+    for(auto& projectInfo: m_projects)
     {
-        QString prName = infoJson["name"].toString();
-        bool isActive = infoJson["is_active"].toInt();
-        bool isWatcher = infoJson["is_owner_watcher"].toInt();
-        QUrl iconUrl = infoJson["logo_url"].toString();
-
-        int spentTimeWeek = infoJson["spent_time_week"].toInt();
-        int spentTimeMonth = infoJson["spent_time_month"].toInt();
-        int spentTimeTotal = infoJson["spent_time_all"].toInt();
-        int id = infoJson["id"].toInt();;
-
-        projects.emplace_back(new ProjectInfo(prName, isActive, isWatcher, std::vector<QPair<bool, QString>>(), iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal), id));
-    }
-
-    if(projects.size())
-    {
-        //update data
-        beginResetModel();
-        m_projects.swap(projects);
-        endResetModel();
-
-        for(auto& projectInfo: m_projects)
-        {
-            connect(projectInfo.get(), &ProjectInfo::projectNameChanged, this, &ProjectsModel::onProjectNameChanged);
-        }
+        connect(projectInfo.get(), &ProjectInfo::projectNameChanged, this, &ProjectsModel::onProjectNameChanged);
     }
 }
 

@@ -116,6 +116,17 @@ Dialog {
                 anchors.top: parent.top
                 text: "Users"
             }
+
+            BaseText
+            {
+                id: _users
+                width: _usersRect.width
+                height:_usersRect.height - _usersLabel.height
+                anchors.left: parent.left
+                anchors.top: _usersLabel.bottom
+                text: projectInfo.users? projectInfo.users : "there aren`t users"
+                color: projectInfo.users? "green" : "red"
+            }
         }
 
         BaseText

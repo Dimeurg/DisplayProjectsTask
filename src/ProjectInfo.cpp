@@ -10,12 +10,11 @@ ProjectInfo::ProjectInfo(QObject * parent)
 
 
 ProjectInfo::ProjectInfo(const QString &projectName, bool isActive, bool isWatcher,
-                         const std::vector<QPair<bool, QString> > &watchUsers,
-                         const QUrl &iconUrl, const Time& timeThisWeek, const Time& timeThisMonth,
+                         const QString &users, const QUrl &iconUrl, const Time& timeThisWeek, const Time& timeThisMonth,
                          const Time& timeTotal, int id, QObject * parent)
     : QObject(parent),
       m_projectName(projectName), m_isActive(isActive), m_isWatcher(isWatcher),
-      m_watchUsers(watchUsers), m_iconUrl(iconUrl),
+      m_users(users), m_iconUrl(iconUrl),
       m_timeThisWeek(timeThisWeek), m_timeThisMonth(timeThisMonth), m_timeTotal(timeTotal), m_id(id)
 {
 }
@@ -38,11 +37,6 @@ bool ProjectInfo::isActive() const
 bool ProjectInfo::isWatcher() const
 {
     return m_isWatcher;
-}
-
-std::vector<QPair<bool, QString> > ProjectInfo::watchUsers() const
-{
-    return m_watchUsers;
 }
 
 QUrl ProjectInfo::iconUrl() const
@@ -77,6 +71,11 @@ void ProjectInfo::setProjectName(const QString &projectName)
 int ProjectInfo::id() const
 {
     return m_id;
+}
+
+QString ProjectInfo::users() const
+{
+    return m_users;
 }
 
 Time::Time(int hours, int minutes, int seconds)

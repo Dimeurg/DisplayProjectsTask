@@ -35,7 +35,7 @@ private:
         ProjectNameRole = Qt::UserRole +1,
         IsActiveRole,
         IsWatcherRole,
-        WatchUsersRole,
+        UsersRole,
         IconUrlRole,
         TimeThisWeekRole,
         TimeThisMonthRole,

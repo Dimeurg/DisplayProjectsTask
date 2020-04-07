@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        src/Parser.cpp \
         src/ProjectInfo.cpp \
         src/ProjectsModel.cpp
 
@@ -33,5 +34,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    include/Parser.h \
     include/ProjectInfo.h \
     include/ProjectsModel.h

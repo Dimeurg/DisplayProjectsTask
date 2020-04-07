@@ -72,6 +72,5 @@ QtObject{
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
         request.setRequestHeader('Authorization', 'Bearer ' + token)
         request.send('name=' + name)
-
     }
 }

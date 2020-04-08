@@ -1,11 +1,10 @@
 #include "ServerRequest.h"
 
-#include <QPair>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QUrlQuery>
-#include <QObject>
+
 #include <QDebug>
 
 #include <QJsonDocument>
@@ -63,14 +62,13 @@ void ServerRequest::onLoginReplyFinished(QNetworkReply* reply)
 
 void ServerRequest::loginRequest(const QString& name, const QString& password)
 {
-    QNetworkAccessManager * manager = new QNetworkAccessManager();
     QNetworkRequest request(QUrl("https://api.quwi.com/v2/auth/login"));
 
     QUrlQuery params;
     params.addQueryItem("email", name.toUtf8());
     params.addQueryItem("password", password.toUtf8());
 
-    QNetworkReply *reply = manager->post(request, params.query().toUtf8());
+    QNetworkReply *reply = m_manager.post(request, params.query().toUtf8());
 
     QObject::connect(reply, &QNetworkReply::readyRead,
                      [reply, this]()
@@ -114,12 +112,11 @@ void ServerRequest::onGetProjectsReplyFinished(QNetworkReply* reply)
 
 void ServerRequest::readProjectInfoRequest(const QString& token)
 {
-    QNetworkAccessManager * manager = new QNetworkAccessManager();
     QNetworkRequest request(QUrl("https://api.quwi.com/v2/projects-manage/index"));
 
     request.setRawHeader("Authorization", ("Bearer " + token.toUtf8()));
 
-    QNetworkReply *reply = manager->get(request);
+    QNetworkReply *reply = m_manager.get(request);
 
     QObject::connect(reply, &QNetworkReply::readyRead,
                      [reply, this]()
@@ -158,7 +155,6 @@ void ServerRequest::onChangeProjectNameFinished(QNetworkReply *reply)
 
 void ServerRequest::changeProjectName(const QString &token, int id, const QString &name)
 {
-    QNetworkAccessManager * manager = new QNetworkAccessManager();
 
     QNetworkRequest request(QUrl("https://api.quwi.com/v2/projects-manage/update?id=" + QString::number(id)));
     request.setRawHeader("Authorization", ("Bearer " + token.toUtf8()));
@@ -166,7 +162,7 @@ void ServerRequest::changeProjectName(const QString &token, int id, const QStrin
     QUrlQuery params;
     params.addQueryItem("name", name);
 
-    QNetworkReply *reply = manager->post(request, params.toString().toUtf8());
+    QNetworkReply *reply = m_manager.post(request, params.toString().toUtf8());
 
     QObject::connect(reply, &QNetworkReply::readyRead,
                      [reply, this]()

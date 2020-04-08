@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>qml/ServerModule/qmldir</file>
-        <file>qml/ServerModule/Server.qml</file>
         <file>qml/DisplayModule/Base/BaseListDelegate.qml</file>
         <file>qml/DisplayModule/Base/BaseText.qml</file>
         <file>qml/DisplayModule/Base/BaseListView.qml</file>

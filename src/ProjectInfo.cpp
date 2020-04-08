@@ -17,6 +17,7 @@ ProjectInfo::ProjectInfo(const QString &projectName, bool isActive, bool isWatch
       m_users(users), m_iconUrl(iconUrl),
       m_timeThisWeek(timeThisWeek), m_timeThisMonth(timeThisMonth), m_timeTotal(timeTotal), m_id(id)
 {
+
 }
 
 void ProjectInfo::registerMe(const std::string &moduleName)

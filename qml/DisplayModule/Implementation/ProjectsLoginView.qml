@@ -2,9 +2,8 @@ import QtQuick 2.0
 import StyleSettings 1.0
 import DisplayModule.Base 1.0
 import QtQuick.Controls 2.12
-import ServerModule 1.0
 
-Rectangle{
+Rectangle {
     id:root
     color: Style.backgroundColor
 
@@ -12,20 +11,18 @@ Rectangle{
     signal login()
 
     onLoggedChanged: {
-        if(root.logged)
-        {
+        if(root.logged) {
             root.login()
         }
 
-        else
-        {
+        else {
             _email.text = ""
             _password.text = ""
             _errLabel.text = ""
         }
     }
 
-    BaseText{
+    BaseText {
         id: _loginLable
         anchors.top: parent.top
         anchors.topMargin: parent.height / 4
@@ -81,7 +78,7 @@ Rectangle{
         }
     }
 
-    Button{
+    Button {
         id: _logButton
 
         anchors.top: _password.bottom
@@ -96,7 +93,7 @@ Rectangle{
 
     }
 
-    Label{
+    Label {
         id: _errLabel
 
         anchors.top: _logButton.bottom

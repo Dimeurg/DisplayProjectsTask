@@ -3,8 +3,6 @@ import QtQuick.Window 2.12
 import DisplayModule.Implementation 1.0
 import QtQuick.Controls 2.12
 
-import ServerModule 1.0
-
 ApplicationWindow {
     id:root
     visible: true
@@ -12,7 +10,7 @@ ApplicationWindow {
     height: 480
     title: "Projects viewer"
 
-    Rectangle{
+    Rectangle {
         id: _menu
 
         anchors.top: parent.top
@@ -20,7 +18,7 @@ ApplicationWindow {
         height: 40
         color: "#aaa"
 
-        Button{
+        Button {
             id: _logoutButton
             height: parent.height
             anchors.right: parent.right
@@ -47,7 +45,7 @@ ApplicationWindow {
 
         Component.onCompleted: contentItem.interactive = false
 
-        ProjectsLoginView{
+        ProjectsLoginView {
             id: _loginPage
             width: _swipeView.width
             height: _swipeView.height
@@ -58,7 +56,7 @@ ApplicationWindow {
             }
         }
 
-        ProjectsListView{
+        ProjectsListView {
             id: _projectsPage
             width: _swipeView.width
             height: _swipeView.height

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import StyleSettings 1.0
 
-Rectangle{
+Rectangle {
     id:root
 
     border.width: 1
@@ -10,7 +10,7 @@ Rectangle{
     radius: width / 2
 
     property alias image: _image
-    RoundImageSub{
+    RoundImageSub {
         id: _image
         anchors.fill: parent
         anchors.margins: Style.basicMargin

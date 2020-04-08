@@ -1,7 +1,7 @@
 #pragma once
+
 #include <QString>
 #include <vector>
-#include <QPair>
 #include <QObject>
 #include <QUrl>
 
@@ -54,7 +54,6 @@ signals:
     void projectNameChanged(int id, const QString& name);
 
 private:
-
     QString m_projectName;
     QString m_users;
     bool m_isActive;

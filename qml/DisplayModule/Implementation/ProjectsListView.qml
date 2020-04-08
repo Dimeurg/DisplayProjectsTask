@@ -1,18 +1,17 @@
 import QtQuick 2.0
 import DisplayModule.Base 1.0
-import ServerModule 1.0
 
-BaseListView{
+BaseListView {
     id: root
 
     model: globalProjectsModel
     spacing: 5
 
-    delegate: ProjectsListDelegate{
+    delegate: ProjectsListDelegate {
         height: 100
         width: root.width
 
-        MouseArea{
+        MouseArea {
             anchors.fill: parent
             onClicked: {
 
@@ -22,7 +21,7 @@ BaseListView{
         }
     }
 
-    ProjectInfoDialog{
+    ProjectInfoDialog {
         id: _infoDialog
     }
 }

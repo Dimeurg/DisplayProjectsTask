@@ -2,12 +2,12 @@ import QtQuick 2.0
 import DisplayModule.Base 1.0
 import StyleSettings 1.0
 
-BaseListDelegate{
+BaseListDelegate {
     id: root
 
     property bool thisIsActive: isActive
 
-    RoundImage{
+    RoundImage {
         id: _icon
         width: Math.min(parent.width / 8, parent.height - Style.basicMargin)
         height: width
@@ -18,7 +18,7 @@ BaseListDelegate{
         anchors.verticalCenter: parent.verticalCenter
     }
 
-    BaseText{
+    BaseText {
         id: _projectName
         anchors.left: _icon.right
         anchors.verticalCenter: parent.verticalCenter
@@ -30,7 +30,7 @@ BaseListDelegate{
     }
 
 
-    BaseText{
+    BaseText {
         id: _isActive
         anchors.left: _projectName.right
         anchors.verticalCenter: parent.verticalCenter
@@ -42,7 +42,7 @@ BaseListDelegate{
         color: isActive ? "green" : "red"
     }
 
-    BaseText{
+    BaseText {
         id: _timeThisWeekLabel
 
         anchors.left: _isActive.right
@@ -54,7 +54,7 @@ BaseListDelegate{
         text: "time this week"
     }
 
-    BaseText{
+    BaseText {
         id: _timeThisMonthLabel
 
         anchors.left: _timeThisWeekLabel.left
@@ -65,7 +65,7 @@ BaseListDelegate{
         text: "this month"
     }
 
-    BaseText{
+    BaseText {
         id: _timeTotalLabel
 
         anchors.left: _timeThisWeekLabel.left
@@ -76,7 +76,7 @@ BaseListDelegate{
         text: "total"
     }
 
-    BaseText{
+    BaseText {
         anchors.left: _timeThisWeekLabel.right
         anchors.top: _timeThisWeekLabel.top
 
@@ -84,7 +84,7 @@ BaseListDelegate{
         text: timeThisWeek
     }
 
-    BaseText{
+    BaseText {
         anchors.left: _timeThisMonthLabel.right
         anchors.top: _timeThisMonthLabel.top
 
@@ -92,14 +92,13 @@ BaseListDelegate{
         text: timeThisMonth
     }
 
-    BaseText{
+    BaseText {
         anchors.left: _timeTotalLabel.right
         anchors.top: _timeTotalLabel.top
 
         anchors.right: parent.right
         text: timeTotal
     }
-
 }
 
 

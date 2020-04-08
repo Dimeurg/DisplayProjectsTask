@@ -4,8 +4,6 @@ import QtQuick.Controls 2.12
 import DisplayModule.Base 1.0
 import StyleSettings 1.0
 
-import ServerModule 1.0
-
 Dialog {
     id:root
 
@@ -20,8 +18,7 @@ Dialog {
         anchors.fill: parent
         color: Style.backgroundColor
 
-        BaseText
-        {
+        BaseText {
             id: _activeLabel
             anchors.top: parent.top
             anchors.left: parent.left
@@ -31,8 +28,7 @@ Dialog {
             text: "Active: "
         }
 
-        BaseText
-        {
+        BaseText {
             id: _activeValue
             anchors.top: _activeLabel.top
             anchors.left: _activeLabel.right
@@ -42,8 +38,7 @@ Dialog {
             color: projectInfo.isActive? "green": "red"
         }
 
-        BaseText
-        {
+        BaseText {
             id: _nameLabel
             anchors.top: _activeLabel.bottom
             anchors.left: parent.left
@@ -52,15 +47,14 @@ Dialog {
             text: "Name"
         }
 
-        Rectangle
-        {
+        Rectangle {
             id: _projectNameRect
             anchors.left: _nameLabel.right
             anchors.top: _nameLabel.top
             width: _activeValue.width
             height: _activeValue.height
             color: Style.basicColor
-            TextInput{
+            TextInput {
                 id: _projectName
                 anchors.fill: parent
                 text: projectInfo.projectName
@@ -70,7 +64,7 @@ Dialog {
             }
         }
 
-        Button{
+        Button {
             id: _changeNameButton
             anchors.left: _projectNameRect.right
             anchors.bottom: _projectNameRect.bottom
@@ -78,13 +72,12 @@ Dialog {
 
             text: "OK"
 
-            onClicked:  {
+            onClicked: {
                 projectInfo.projectName = _projectName.text
-                Server.changeName(globalProjectsModel.token, projectInfo.id, projectInfo.projectName)
             }
         }
 
-        RoundImage{
+        RoundImage {
             width: parent.width / 8
             height: width
             anchors.left: _changeNameButton.right
@@ -95,7 +88,7 @@ Dialog {
             image.source: projectInfo.iconUrl
         }
 
-        Rectangle{
+        Rectangle {
             id: _usersRect
             anchors.left: parent.left
             anchors.top: _nameLabel.bottom
@@ -104,8 +97,7 @@ Dialog {
 
             color: Style.backgroundColor
 
-            BaseText
-            {
+            BaseText {
                 id: _usersLabel
                 width: _activeLabel.width
                 height:_activeLabel.height
@@ -114,8 +106,7 @@ Dialog {
                 text: "Users"
             }
 
-            BaseText
-            {
+            BaseText {
                 id: _users
                 width: _usersRect.width
                 height:_usersRect.height - _usersLabel.height
@@ -126,8 +117,7 @@ Dialog {
             }
         }
 
-        BaseText
-        {
+        BaseText {
             id: _watcherLabel
             width: _activeLabel.width
             height: _activeLabel.height
@@ -136,8 +126,7 @@ Dialog {
             text: "Watcher: "
         }
 
-        BaseText
-        {
+        BaseText {
             id: _watcherValue
             width: _activeValue.width
             height: _activeValue.height

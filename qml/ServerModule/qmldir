@@ -1,2 +1,0 @@
-module ServerModule
-singleton Server 1.0 Server.qml

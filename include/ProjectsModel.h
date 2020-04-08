@@ -40,8 +40,8 @@ signals:
 
 private:
     void readProjectsInfo();
-    enum ProjectRoles{
-
+    enum ProjectRoles
+    {
         ProjectNameRole = Qt::UserRole +1,
         IsActiveRole,
         IsWatcherRole,

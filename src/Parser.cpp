@@ -6,7 +6,7 @@
 
 void Parser::projectsInfoParse(const QJsonArray& projectsInfo, std::vector<std::shared_ptr<ProjectInfo>>& projectsOutput)
 {
-   std::vector<std::shared_ptr<ProjectInfo>> projects;
+    std::vector<std::shared_ptr<ProjectInfo>> projects;
     for(auto infoJson : projectsInfo)
     {
         QString prName = infoJson["name"].toString();

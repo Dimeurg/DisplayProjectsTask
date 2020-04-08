@@ -30,8 +30,8 @@ ApplicationWindow {
 
             onClicked: {
                 _swipeView.currentIndex = _swipeView.loginPage
-                globalProjectsModeltoken = ""
-                visible: false
+                globalProjectsModel.resetToken()
+                visible = false
             }
         }
     }
@@ -52,7 +52,7 @@ ApplicationWindow {
             width: _swipeView.width
             height: _swipeView.height
 
-            onLogged: {
+            onLogin: {
                 _logoutButton.visible = true
                 _swipeView.currentIndex = _swipeView.projectsPage
             }

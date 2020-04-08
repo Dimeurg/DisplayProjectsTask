@@ -4,9 +4,11 @@
 #include <QPointer>
 
 ProjectsModel::ProjectsModel(QObject *parent)
-    :QAbstractListModel(parent)
+    :QAbstractListModel(parent), m_isLogged(false)
 {
-
+    connect(&m_serverRequest, &ServerRequest::loginResultError, this, &ProjectsModel::setErrorText);
+    connect(&m_serverRequest, &ServerRequest::loginResultToken, this, &ProjectsModel::onLogged);
+    connect(&m_serverRequest, & ServerRequest::loginResultProjects, this, &ProjectsModel::onReadProjectsInfo);
 }
 
 ProjectsModel::~ProjectsModel()
@@ -91,9 +93,32 @@ QVariant ProjectsModel::data(const QModelIndex &index, int role) const
     }
 }
 
-void ProjectsModel::onProjectNameChanged()
+void ProjectsModel::onProjectNameChanged(int id, const QString& name)
 {
-     dataChanged(createIndex(0, 0), createIndex(m_projects.size(), 0));
+    m_serverRequest.changeProjectName(m_token, id, name);
+    dataChanged(createIndex(0, 0), createIndex(m_projects.size(), 0));
+}
+
+void ProjectsModel::loginCheck(const QString& name, const QString& password)
+{
+    m_serverRequest.loginRequest(name, password);
+}
+
+void ProjectsModel::onLogged(const QString& token)
+{
+    if(m_token != token)
+    {
+        m_token = token;
+        m_serverRequest.readProjectInfoRequest(m_token);
+    }
+
+    m_isLogged = true;
+    emit loggedStateChanged(m_isLogged);
+}
+
+bool ProjectsModel::isLogged() const
+{
+    return m_isLogged;
 }
 
 QVariant ProjectsModel::getProjectInfo(int index) const
@@ -102,6 +127,13 @@ QVariant ProjectsModel::getProjectInfo(int index) const
         return QVariant();
 
     return QVariant::fromValue(m_projects[index].get());
+}
+
+void ProjectsModel::resetToken()
+{
+    m_token = "";
+    m_isLogged = false;
+    emit loggedStateChanged(m_isLogged);
 }
 
 QHash<int, QByteArray> ProjectsModel::roleNames() const
@@ -131,17 +163,19 @@ void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
     }
 }
 
-QString ProjectsModel::token() const
+void ProjectsModel::readProjectsInfo()
 {
-    return m_token;
+
 }
 
-void ProjectsModel::setToken(const QString &token)
+QString ProjectsModel::errorText() const
 {
-    if(m_token != token)
-    {
-        m_token = token;
-        emit tokenChanged();
-    }
+    return m_errorText;
+}
+
+void ProjectsModel::setErrorText(const QString &text)
+{
+    m_errorText = text;
+    emit errorTextChanged();
 }
 

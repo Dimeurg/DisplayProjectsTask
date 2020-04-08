@@ -64,7 +64,7 @@ void ProjectInfo::setProjectName(const QString &projectName)
     if(projectName != m_projectName)
     {
         m_projectName = projectName;
-        emit projectNameChanged();
+        emit projectNameChanged(m_id, m_projectName);
     }
 }
 

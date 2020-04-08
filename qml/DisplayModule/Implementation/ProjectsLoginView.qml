@@ -8,11 +8,22 @@ Rectangle{
     id:root
     color: Style.backgroundColor
 
-    property alias logButton: _logButton
-    property alias email: _email
-    property alias password: _password
+    property bool logged : globalProjectsModel.isLogged
+    signal login()
 
-    signal logged()
+    onLoggedChanged: {
+        if(root.logged)
+        {
+            root.login()
+        }
+
+        else
+        {
+            _email.text = ""
+            _password.text = ""
+            _errLabel.text = ""
+        }
+    }
 
     BaseText{
         id: _loginLable
@@ -80,30 +91,7 @@ Rectangle{
         text: "LOGIN"
 
         onClicked: {
-            Server.loginToServer()
-            var result = Server.loginToServer(_email.text, _password.text)
-            if(typeof result === 'string')
-            {
-                globalProjectsModel.token = result
-                logged()
-
-                email.text = ""
-                password.text = ""
-
-                globalProjectsModel.onReadProjectsInfo(Server.getProjectsInfo(globalProjectsModel.token))
-            }
-
-            else
-            {
-                var message = ""
-                for (var key in result) {
-                    if (result.hasOwnProperty(key)) {
-                        message += ("Error: " + result[key] + "<br>")
-                    }
-                }
-
-                _errLabel.text = message
-            }
+            globalProjectsModel.loginCheck(_email.text, _password.text)
         }
 
     }
@@ -114,6 +102,7 @@ Rectangle{
         anchors.top: _logButton.bottom
         anchors.topMargin: Style.mediumOffset
         anchors.horizontalCenter: parent.horizontalCenter
+        text: globalProjectsModel.errorText
 
         color: "red"
     }

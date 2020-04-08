@@ -4,9 +4,9 @@
 #include <QJsonObject>
 #include <QStringLiteral>
 
-void Parser::projectsInfoParse(const QJsonArray& projectsInfo, std::vector<std::shared_ptr<ProjectInfo>>& projectsOut)
+void Parser::projectsInfoParse(const QJsonArray& projectsInfo, std::vector<std::shared_ptr<ProjectInfo>>& projectsOutput)
 {
-    std::vector<std::shared_ptr<ProjectInfo>> projects;
+   std::vector<std::shared_ptr<ProjectInfo>> projects;
     for(auto infoJson : projectsInfo)
     {
         QString prName = infoJson["name"].toString();
@@ -30,5 +30,5 @@ void Parser::projectsInfoParse(const QJsonArray& projectsInfo, std::vector<std::
         projects.emplace_back(new ProjectInfo(prName, isActive, isWatcher, users, iconUrl, Time(spentTimeWeek), Time(spentTimeMonth), Time(spentTimeTotal), id));
     }
 
-    projectsOut.swap(projects);
+    projectsOutput.swap(projects);
 }

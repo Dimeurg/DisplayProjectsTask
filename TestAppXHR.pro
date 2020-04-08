@@ -1,4 +1,4 @@
-QT += quick
+QT += quick network
 
 CONFIG += c++11
 
@@ -17,7 +17,8 @@ SOURCES += \
         main.cpp \
         src/Parser.cpp \
         src/ProjectInfo.cpp \
-        src/ProjectsModel.cpp
+        src/ProjectsModel.cpp \
+        src/ServerRequest.cpp
 
 RESOURCES += qml.qrc
 
@@ -36,4 +37,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     include/Parser.h \
     include/ProjectInfo.h \
-    include/ProjectsModel.h
+    include/ProjectsModel.h \
+    include/ServerRequest.h

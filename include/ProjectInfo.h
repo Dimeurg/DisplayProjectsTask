@@ -51,7 +51,7 @@ public:
     QString users() const;
 
 signals:
-    void projectNameChanged();
+    void projectNameChanged(int id, const QString& name);
 
 private:
 

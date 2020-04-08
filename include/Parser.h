@@ -5,6 +5,6 @@
 class Parser{
 public:
 
-static void projectsInfoParse(const QJsonArray& projectsInfo, std::vector<std::shared_ptr<ProjectInfo>>& projectsOut);
+static void  projectsInfoParse(const QJsonArray& projectsInfo, std::vector<std::shared_ptr<ProjectInfo>>& projectsOutput);
 
 };

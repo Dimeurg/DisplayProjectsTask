@@ -30,7 +30,6 @@ void ServerRequest::onLoginReplyFinished(QNetworkReply* reply)
 {
     if (reply->error())
     {
-        auto test = reply->errorString();
         emit loginResultError(reply->errorString());
     }
 
@@ -46,7 +45,6 @@ void ServerRequest::onLoginReplyFinished(QNetworkReply* reply)
            QJsonObject errorJson = jsonResult["first_errors"].toObject();
            for(auto iter = errorJson.begin(); iter != errorJson.end(); ++iter)
            {
-               QString a = iter->toString();
                errorText += iter->toString() + "\n";
            }
 
@@ -96,7 +94,6 @@ void ServerRequest::onGetProjectsReplyFinished(QNetworkReply* reply)
            QJsonObject errorJson = jsonResult["first_errors"].toObject();
            for(auto iter = errorJson.begin(); iter != errorJson.end(); ++iter)
            {
-               QString a = iter->toString();
                errorText += iter->toString() + "\n";
            }
 
@@ -144,7 +141,6 @@ void ServerRequest::onChangeProjectNameFinished(QNetworkReply *reply)
            QJsonObject errorJson = jsonResult["first_errors"].toObject();
            for(auto iter = errorJson.begin(); iter != errorJson.end(); ++iter)
            {
-               QString a = iter->toString();
                errorText += iter->toString() + "\n";
            }
 

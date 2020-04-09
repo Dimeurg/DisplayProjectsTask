@@ -13,12 +13,10 @@ Rectangle {
     onLoggedChanged: {
         if(root.logged) {
             root.login()
-        }
 
-        else {
             _email.text = ""
             _password.text = ""
-            _errLabel.text = ""
+            globalProjectsModel.resetErrorMessage();
         }
     }
 
@@ -94,9 +92,20 @@ Rectangle {
     }
 
     Label {
-        id: _errLabel
+        id: _errLoginLabel
 
         anchors.top: _logButton.bottom
+        anchors.topMargin: Style.mediumOffset
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: globalProjectsModel.errorLoginText
+
+        color: "red"
+    }
+
+    Label {
+        id: _errLabel
+
+        anchors.top: _errLoginLabel.bottom
         anchors.topMargin: Style.mediumOffset
         anchors.horizontalCenter: parent.horizontalCenter
         text: globalProjectsModel.errorText

@@ -6,9 +6,10 @@
 ProjectsModel::ProjectsModel(QObject *parent)
     :QAbstractListModel(parent), m_isLogged(false)
 {
-    connect(&m_serverRequest, &ServerRequest::loginResultError, this, &ProjectsModel::setErrorText);
+    connect(&m_serverRequest, &ServerRequest::loginResultError, this, &ProjectsModel::setLoginErrorText);
+    connect(&m_serverRequest, &ServerRequest::requestError, this, &ProjectsModel::setErrorText);
     connect(&m_serverRequest, &ServerRequest::loginResultToken, this, &ProjectsModel::onLogged);
-    connect(&m_serverRequest, & ServerRequest::loginResultProjects, this, &ProjectsModel::onReadProjectsInfo);
+    connect(&m_serverRequest, &ServerRequest::loginResultProjects, this, &ProjectsModel::onReadProjectsInfo);
 }
 
 ProjectsModel::~ProjectsModel()
@@ -112,8 +113,17 @@ void ProjectsModel::onLogged(const QString& token)
         m_serverRequest.readProjectInfoRequest(m_token);
     }
 
-    m_isLogged = true;
-    emit loggedStateChanged(m_isLogged);
+    if(m_token != "")
+    {
+        m_isLogged = true;
+        emit loggedStateChanged(m_isLogged);
+    }
+
+    else
+    {
+        m_loginErrorText = "bad token";
+        emit errorLoginTextChanged();
+    }
 }
 
 bool ProjectsModel::isLogged() const
@@ -134,6 +144,14 @@ void ProjectsModel::resetToken()
     m_token = "";
     m_isLogged = false;
     emit loggedStateChanged(m_isLogged);
+}
+
+void ProjectsModel::resetErrorMessage()
+{
+    m_errorText = "";
+    m_loginErrorText = "";
+    emit errorTextChanged();
+    emit errorLoginTextChanged();
 }
 
 QHash<int, QByteArray> ProjectsModel::roleNames() const
@@ -166,6 +184,17 @@ void ProjectsModel::onReadProjectsInfo(const QJsonArray& projectsInfo)
 void ProjectsModel::readProjectsInfo()
 {
 
+}
+
+void ProjectsModel::setLoginErrorText(const QString &loginErrorText)
+{
+    m_loginErrorText = loginErrorText;
+    emit errorLoginTextChanged();
+}
+
+QString ProjectsModel::loginErrorText() const
+{
+    return m_loginErrorText;
 }
 
 QString ProjectsModel::errorText() const

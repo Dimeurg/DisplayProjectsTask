@@ -7,7 +7,8 @@ class ProjectsModel : public QAbstractListModel{
     Q_OBJECT
 
     Q_PROPERTY(bool isLogged READ isLogged NOTIFY loggedStateChanged)
-    Q_PROPERTY(QString errorText READ errorText WRITE setErrorText NOTIFY errorTextChanged)
+    Q_PROPERTY(QString errorText READ errorText NOTIFY errorTextChanged)
+    Q_PROPERTY(QString errorLoginText READ loginErrorText NOTIFY errorLoginTextChanged)
 public:
     ProjectsModel(QObject* parent = nullptr);
     ~ProjectsModel();
@@ -19,6 +20,7 @@ public:
 
     Q_INVOKABLE QVariant getProjectInfo(int index) const;
     Q_INVOKABLE void resetToken();
+    Q_INVOKABLE void resetErrorMessage();
 
     QHash<int, QByteArray> roleNames() const override;
 
@@ -26,6 +28,9 @@ public:
     void setErrorText(const QString& text);
 
     bool isLogged() const;
+
+    QString loginErrorText() const;
+    void setLoginErrorText(const QString &loginErrorText);
 
 public slots:
     void onReadProjectsInfo(const QJsonArray& projectsInfo);
@@ -36,6 +41,7 @@ public slots:
 
 signals:
     void errorTextChanged();
+    void errorLoginTextChanged();
     void loggedStateChanged(bool isLogged);
 
 private:
@@ -56,5 +62,6 @@ private:
     QString m_token;
     ServerRequest m_serverRequest;
     QString m_errorText;
+    QString m_loginErrorText;
     bool m_isLogged;
 };
